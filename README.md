@@ -25,6 +25,9 @@ $ git submodule update
 $ git submodule update --remote
 ```
 
+> see git submodules: https://git-scm.com/book/en/v2/Git-Tools-Submodules
+
+
 ### Sample
 
 A Makefile sample could be:
@@ -40,10 +43,16 @@ A Makefile sample could be:
 all: build image gen-doc
 
 # ... targets here
+
+## build: build files (this line shown by make help)
 build:
+## image: make a disk image
 image:
+## gen-doc: build docs
 gen-doc:
+## install: install into local system
 install:
+## clean: cleanup the intermediete and target files
 clean:
 
 # END OF Makefile ..
@@ -53,11 +62,13 @@ clean:
 Now these targets are ready: i/info/help, list. For example:
 
 ```bash
-$ make i
+$ make i     # or make info or make help
 
 > Choose a command run in :
 
-  linker   prints the linker's activities
+  build    build files (this line shown by make help)
+  image    make a disk image
+  ...
 
 > The environment detected:
 
@@ -75,6 +86,5 @@ $ make i
          CLANG-TIDY = /usr/local/opt/llvm/bin/clang-tidy
        CLANG-FORMAT = /usr/local/bin/clang-format
         NASM Format = macho64 (suffix: )
-
 ```
 
