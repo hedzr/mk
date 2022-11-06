@@ -1,0 +1,12 @@
+*.dump
+*.o
+*.lst
+*.log
+*.elf
+*.darwin
+*.bin
+main
+
+.vagrant/
+sav/
+SAVE/
