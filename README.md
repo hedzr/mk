@@ -28,7 +28,8 @@ $ git submodule update --remote
 > see git submodules: https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 
-### Sample
+
+### Sample Skeleton
 
 A Makefile sample could be:
 
@@ -38,7 +39,7 @@ A Makefile sample could be:
 -include _env.mk				# setup NASM_DEBUG_OPTS, ...
 -include _env.local.mk			#    your local tuning
 
-.PHONY: all
+.PHONY: all build image gen-doc install clean
 
 all: build image gen-doc
 
@@ -88,3 +89,10 @@ $ make i     # or make info or make help
         NASM Format = macho64 (suffix: )
 ```
 
+That's it.
+
+## Demo
+
+A simplest C++ project can be found at [cxxtool/hello-cxx](https://gitlab.com/cxxtool/hello-cxx/).
+
+You may wonder, seeing its [Makefile](https://gitlab.com/cxxtool/hello-cxx/-/blob/master/Makefile) for writing rules and targets for an C++ program.
