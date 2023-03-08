@@ -4,7 +4,7 @@
 
 ## Getting Started
 
-### Integrating into your project:
+### Integrating into your project
 
 Add `mk` as a git submodule:
 
@@ -25,19 +25,17 @@ $ git submodule update
 $ git submodule update --remote
 ```
 
-> see git submodules: https://git-scm.com/book/en/v2/Git-Tools-Submodules
-
-
+> see git submodules: <https://git-scm.com/book/en/v2/Git-Tools-Submodules>
 
 ### Sample Skeleton
 
 A Makefile sample could be:
 
 ```makefile
--include ci/mk/detect_env.mk	# setup COS, ARCH
--include ci/mk/detect_cc.mk		# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
--include _env.mk				# setup NASM_DEBUG_OPTS, ...
--include _env.local.mk			#    your local tuning
+-include ci/mk/detect_env.mk    # setup COS, ARCH
+-include ci/mk/detect_cc.mk     # setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
+-include _env.mk                # setup NASM_DEBUG_OPTS, ...
+-include _env.local.mk          #    your local tuning
 
 .PHONY: all build image gen-doc install clean
 
@@ -57,7 +55,7 @@ install:
 clean:
 
 # END OF Makefile ..
--include ci/mk/help.mk			# targets: i info help list
+-include ci/mk/help.mk              # targets: i info help list
 ```
 
 Now these targets are ready: i/info/help, list. For example:
@@ -90,6 +88,45 @@ $ make i     # or make info or make help
 ```
 
 That's it.
+
+### Standard `_env.mk`
+
+It commonly is:
+
+```Makefile
+# CC=g++
+# OBJDUMP=objdump
+# ifeq ($(COS),OSX)
+#     # install gcc-12 with `brew install gcc` or `brew install gcc@12` on your macOS
+#     CC=g++12
+#     CC=$(shell brew --prefix gcc)/bin/gcc-12
+#     # install gnu objdump with `brew install binutils`
+#     # or use otool / gobjdump
+#     # or use llvm-objdump
+#     OBJDUMP=$(shell brew --prefix binutils)/bin/objdump
+# endif
+
+# Turn off optimizations because we want to be able to follow the assembly.
+FLAGS=-O0 -fverbose-asm -no-pie
+POST_FLAGS=-Wl,--verbose
+# for clang, use -fno-pie or -fpie; for gcc, use -no-pie or -pie
+ifneq ($(CCTYPE),gcc)
+    FLAGS=-O0 -fverbose-asm -fno-pie
+    POST_FLAGS=
+endif
+```
+
+### Default `CCTYPE`
+
+If possible, we make `llvm` as default, even if you're in macOS and xcode-tool installed.
+
+This feature relys on `brew install llvm` done and `llvm` is ready. Otherwise, Apple clang will be choiced.
+
+The cc detector finds available cc compilers with this order:
+
+1. llvm (brew, or by package manager)
+2. gcc 12, 11, ..., (brew, or by package manager)
+3. Stocked cc, such as: Apple clang, gcc bundled with Linux Distro, etc..
 
 ## Demo
 
