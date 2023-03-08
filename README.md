@@ -23,6 +23,9 @@ Update `mk` from official upstream:
 $ git submodule update
 # Or
 $ git submodule update --remote
+
+# After newer submodule checkout or pulled, make a commit to confirm the new pointer of it:
+git add . && git commit -m 'updated submodule: ci/mk'
 ```
 
 > see git submodules: <https://git-scm.com/book/en/v2/Git-Tools-Submodules>
