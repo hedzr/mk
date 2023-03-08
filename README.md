@@ -2,6 +2,16 @@
 
 `mk` provides a set of makefile utilities to simplify your Makefile.
 
+## Features
+
+```makefile
+-include ci/mk/detect_env.mk    # setup COS, ARCH
+-include ci/mk/detect_cc.mk     # setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
+-include _env.mk                # setup NASM_DEBUG_OPTS, ...
+-include _env.local.mk          #    your local tuning
+-include ci/mk/help.mk          # targets: i info help list
+```
+
 ## Getting Started
 
 ### Integrating into your project
@@ -24,7 +34,7 @@ $ git submodule update
 # Or
 $ git submodule update --remote
 
-# After newer submodule checkout or pulled, make a commit to confirm the new pointer of it:
+# After newer commits checked out or pulled, make a commit on parent to confirm the new pointer of it:
 git add . && git commit -m 'updated submodule: ci/mk'
 ```
 
@@ -58,7 +68,7 @@ install:
 clean:
 
 # END OF Makefile ..
--include ci/mk/help.mk              # targets: i info help list
+-include ci/mk/help.mk          # targets: i info help list
 ```
 
 Now these targets are ready: i/info/help, list. For example:
@@ -66,7 +76,7 @@ Now these targets are ready: i/info/help, list. For example:
 ```bash
 $ make i     # or make info or make help
 
-> Choose a command run in :
+> Choose a command run in:
 
   build    build files (this line shown by make help)
   image    make a disk image
@@ -136,3 +146,7 @@ The cc detector finds available cc compilers with this order:
 A simplest C++ project can be found at [cxxtool/hello-cxx](https://gitlab.com/cxxtool/hello-cxx/).
 
 You may wonder, seeing its [Makefile](https://gitlab.com/cxxtool/hello-cxx/-/blob/master/Makefile) for writing rules and targets for an C++ program.
+
+## License
+
+Apache 2.0
