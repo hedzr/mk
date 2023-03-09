@@ -6,7 +6,11 @@
 *.darwin
 *.bin
 main
+*.out
 
 .vagrant/
 sav/
 SAVE/
+bin/
+build/
+cmake-build-*/
