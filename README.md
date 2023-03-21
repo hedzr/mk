@@ -5,12 +5,20 @@
 ## Features
 
 ```makefile
--include ci/mk/detect_env.mk    # setup COS, ARCH
--include ci/mk/detect_cc.mk     # setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
--include _env.mk                # setup NASM_DEBUG_OPTS, ...
--include _env.local.mk          #    your local tuning
--include ci/mk/help.mk          # targets: i info help list
+-include detect_env.mk		# setup COS, ARCH, cross-p TIMESTAMP, ECHO
+-include detect_cc.mk		# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
+-include _env.mk			# setup NASM_DEBUG_OPTS, ...
+-include _env.local.mk		#    your local tuning
+
+-include help.mk			# targets: i info help list
+
+# Make is verbose in Linux. Make it silent.
+MAKEFLAGS += --silent
+
+#include git.mk				# GIT_VERSION, GIT_REVISION, ...
 ```
+
+see the main Makefile.
 
 ## Getting Started
 
@@ -45,10 +53,17 @@ git add . && git commit -m 'updated submodule: ci/mk'
 A Makefile sample could be:
 
 ```makefile
--include ci/mk/detect_env.mk    # setup COS, ARCH
--include ci/mk/detect_cc.mk     # setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
--include _env.mk                # setup NASM_DEBUG_OPTS, ...
--include _env.local.mk          #    your local tuning
+-include detect_env.mk		# setup COS, ARCH, cross-p TIMESTAMP, ECHO
+-include detect_cc.mk		# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
+-include _env.mk			# setup NASM_DEBUG_OPTS, ...
+-include _env.local.mk		#    your local tuning
+
+-include help.mk			# targets: i info help list
+
+# Make is verbose in Linux. Make it silent.
+MAKEFLAGS += --silent
+
+#include git.mk				# GIT_VERSION, GIT_REVISION, ...
 
 .PHONY: all build image gen-doc install clean
 
