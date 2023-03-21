@@ -61,3 +61,16 @@ else
         endif
     endif
 endif
+
+
+#TIMESTAMP=$(shell date)
+#TIMESTAMP=$(shell date -u '+%Y-%m-%d_%I:%M:%S%p')
+TIMESTAMP=$(shell date -u '+%Y-%mm-%ddT%HH:%MM:%SS')
+ifeq ($(OS),macOS)
+	TIMESTAMP=$(shell date -Iseconds)
+endif
+
+ECHO = echo -e
+ifeq ($(OS),macOS)
+	ECHO = echo
+endif
