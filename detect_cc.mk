@@ -144,6 +144,7 @@ endif
 
 # NASM_DEBUG_OPT += -g -F dwarf
 # NASM_DEBUG_OPT += -g -F macho64
+# name -f elf64 -f elf -f bin -f macho64
 NASM_DEBUG_OPT += -g
 ifeq ($(EVAL_MODE),1)
 	NASM_DEBUG_OPT += -dEVAL_MODE
