@@ -18,7 +18,7 @@ MAKEFLAGS += --silent
 #include git.mk				# GIT_VERSION, GIT_REVISION, ...
 ```
 
-see the main Makefile.
+See also [the main Makefile](https://gitlab.com/cxxtool/mk/-/blob/master/Makefile).
 
 ## Getting Started
 
