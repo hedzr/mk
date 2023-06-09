@@ -20,6 +20,7 @@ i info help: .help1 # for '#: xxx\nxxx:'
 	@echo "   Current OS (COS) = $(COS), OS = $(OS), GCC_PRIOR = $(GCC_PRIOR)"
 	@echo "               Arch = $(ARCH)"
 	@echo " uname -p | -s | -m = $(UNAME_P) | $(UNAME_S) | $(shell uname -m)"
+	@echo "          uid / gid = $(CURRENT_UID) / $(CURRENT_GID)"
 	@echo "             CCTYPE = $(CCTYPE)"
 	@[ "$(GCC_PREFIX)" != "" ]  && echo "                gcc = $(GCC_PREFIX)/, $(shell $(GCC_PREFIX)/bin/gcc-12 -v 2>&1 | tail -1)"  || echo "                gcc = $(GCC), $(GCC_VER)"
 	@[ "$(LLVM_PREFIX)" != "" ] && echo "         llvm clang = $(LLVM_PREFIX)/, $(shell $(LLVM_PREFIX)/bin/clang -v 2>&1 | head -1)" || \

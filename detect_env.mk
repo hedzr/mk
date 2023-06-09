@@ -74,3 +74,7 @@ ECHO = echo -e
 ifeq ($(OS),macOS)
 	ECHO = echo
 endif
+
+
+CURRENT_UID := $(shell id -u)
+CURRENT_GID := $(shell id -g)
