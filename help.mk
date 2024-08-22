@@ -33,6 +33,7 @@ i info help: .help1 # for '#: xxx\nxxx:'
 	@echo "         CLANG-TIDY = $(CLANG_TIDY)"
 	@echo "       CLANG-FORMAT = $(CLANG_FORMAT)"
 	@echo "        NASM Format = $(NASM_FMT) (suffix: $(NASM_FMT_SUFFIX))"
+	-@$(MAKE) help-extras
 
 .help1: Makefile # for '## xx: xx'
 	@echo
