@@ -65,13 +65,13 @@ endif
 
 #TIMESTAMP=$(shell date)
 #TIMESTAMP=$(shell date -u '+%Y-%m-%d_%I:%M:%S%p')
-TIMESTAMP=$(shell date -u '+%Y-%mm-%ddT%HH:%MM:%SS')
-ifeq ($(OS),macOS)
-	TIMESTAMP=$(shell date -Iseconds)
+TIMESTAMP=$(shell date -u '+%Y-%m-%dT%H:%M:%S.%N')
+ifeq ($(COS),OSX)
+	TIMESTAMP=$(shell date -u -Iseconds)
 endif
 
 ECHO = echo -e
-ifeq ($(OS),macOS)
+ifeq ($(COS),OSX)
 	ECHO = echo
 endif
 
