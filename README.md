@@ -162,6 +162,34 @@ A simplest C++ project can be found at [cxxtool/hello-cxx](https://gitlab.com/cx
 
 You may wonder, seeing its [Makefile](https://gitlab.com/cxxtool/hello-cxx/-/blob/master/Makefile) for writing rules and targets for an C++ program.
 
+## For Developer
+
+### About git submodule
+
+In using git submodule in your project, these commands could be useful,
+
+```bash
+git submodule add https://gitlab.com/cxxtool/mk.git ci/mk     # add `mk` into your project as a submodule
+git submodule update --for --remote ci/mk                     # update `mk` from orginal source while we update it
+
+# lock `mk` to specific version
+git submodule add https://gitlab.com/cxxtool/mk.git ci/mk
+# Or:
+#    git submodule add https://github.com/hedzr/mk.git ci/mk
+cd ci/mk
+git checkout v0.2.7
+# Or: git checkout -b v0.2.7 origin/v0.2.7
+cd ../..
+git add ci/mk
+git commit -m 'lock "mk" to v0.2.7'
+
+# another way
+git submodule add -b v0.2.7 https://gitlab.com/cxxtool/mk.git ci/mk
+```
+
+- [Git - 子模块](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
+- [Git: submodule 子模块简明教程 | A Quest After Perspectives](https://iphysresearch.github.io/blog/post/programing/git/git_submodule/)
+
 ## License
 
 Apache 2.0
