@@ -4,18 +4,46 @@
 
 ## Features
 
-```makefile
--include detect_env.mk		# setup COS, ARCH, cross-p TIMESTAMP, ECHO
--include detect_cc.mk		# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
--include _env.mk			# setup NASM_DEBUG_OPTS, ...
--include _env.local.mk		#    your local tuning
+Clone me at first:
 
--include help.mk			# targets: i info help list
+```bash
+git clone https://github.com/hedzr/mk.git ./ci/mk
+```
+
+And make a new top-level `Makefile` as following:
+
+```makefile
+# standard includes here #################
+-include ./ci/mk/detect-env.mk			# setup COS, ARCH, cross-p TIMESTAMP, ECHO
+-include ./ci/mk/detect-cc.mk			# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
+-include ./ci/mk/git.mk					# GIT_VERSION, GIT_REVISION, ...
+
+-include env.mk							#
+-include .env							#
+-include .env.local						#
+-include _env.mk						# setup NASM_DEBUG_OPTS, ...
+-include _env.local.mk					#    your local tuning
+# standard includes ends #################
+
 
 # Make is verbose in Linux. Make it silent.
 MAKEFLAGS += --silent
 
 #include git.mk				# GIT_VERSION, GIT_REVISION, ...
+
+
+# standard post-includes here ############
+#-include ./ci/mk/go-targets.mk			# for golang project
+-include ./ci/mk/help.mk						# targets: i info help list
+help-extras:
+	@echo
+	@echo "              GO = $(GO)"
+	@echo "            GOOS = $(GOOS)"
+	@echo "          GOARCH = $(GOARCH)"
+	@echo "         GOPROXY = $(GOPROXY)"
+	@echo
+# standard post-includes ends ############
+
 ```
 
 See also [the main Makefile](https://gitlab.com/cxxtool/mk/-/blob/master/Makefile).
@@ -53,12 +81,18 @@ git add . && git commit -m 'updated submodule: ci/mk'
 A Makefile sample could be:
 
 ```makefile
--include detect_env.mk		# setup COS, ARCH, cross-p TIMESTAMP, ECHO
--include detect_cc.mk		# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
--include _env.mk			# setup NASM_DEBUG_OPTS, ...
--include _env.local.mk		#    your local tuning
+# standard includes here #################
+-include ./ci/mk/detect-env.mk			# setup COS, ARCH, cross-p TIMESTAMP, ECHO
+-include ./ci/mk/detect-cc.mk			# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
+-include ./ci/mk/git.mk					# GIT_VERSION, GIT_REVISION, ...
 
--include help.mk			# targets: i info help list
+-include env.mk							#
+-include .env							#
+-include .env.local						#
+-include _env.mk						# setup NASM_DEBUG_OPTS, ...
+-include _env.local.mk					#    your local tuning
+# standard includes ends #################
+
 
 # Make is verbose in Linux. Make it silent.
 MAKEFLAGS += --silent
@@ -83,7 +117,20 @@ install:
 clean:
 
 # END OF Makefile ..
--include ci/mk/help.mk          # targets: i info help list
+
+
+
+# standard post-includes here ############
+#-include ./ci/mk/go-targets.mk			# for golang project
+-include ./ci/mk/help.mk						# targets: i info help list
+help-extras:
+	@echo
+	@echo "              GO = $(GO)"
+	@echo "            GOOS = $(GOOS)"
+	@echo "          GOARCH = $(GOARCH)"
+	@echo "         GOPROXY = $(GOPROXY)"
+	@echo
+# standard post-includes ends ############
 ```
 
 Now these targets are ready: i/info/help, list. For example:
