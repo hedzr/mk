@@ -2,8 +2,8 @@
 # .info:
 # 	ll /usr/local/opt/gcc@12/bin /usr/local/opt/llvm/bin
 
-## list: list all available targets in this Makefile
-list:
+## list-targets: list all available targets in this Makefile
+list-targets:
 	@printf "%-20s %s\n" "Target" "Description"
 	@printf "%-20s %s\n" "------" "-----------"
 	@$(MAKE) -pqR : 2>/dev/null \
