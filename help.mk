@@ -2,6 +2,14 @@
 # .info:
 # 	ll /usr/local/opt/gcc@12/bin /usr/local/opt/llvm/bin
 
+printvars:
+	$(foreach V, $(sort $(filter-out .VARIABLES,$(.VARIABLES))), $(info $(v) = $($(v))) )
+	# Simple:
+	#   (foreach v, $(filter-out .VARIABLES,$(.VARIABLES)), $(info $(v) = $($(v))) )
+
+print-%:
+	@echo $* = $($*)
+
 ## list-targets: list all available targets in this Makefile
 list-targets:
 	@printf "%-20s %s\n" "Target" "Description"
@@ -17,23 +25,31 @@ list-targets:
 i info help: .help1 # for '#: xxx\nxxx:'
 	@echo "> The environment detected:"
 	@echo
-	@echo "   Current OS (COS) = $(COS), OS = $(OS), GCC_PRIOR = $(GCC_PRIOR)"
-	@echo "               Arch = $(ARCH)"
-	@echo " uname -p | -s | -m = $(UNAME_P) | $(UNAME_S) | $(shell uname -m)"
-	@echo "          uid / gid = $(CURRENT_UID) / $(CURRENT_GID)"
-	@echo "             CCTYPE = $(CCTYPE)"
-	@[ "$(GCC_PREFIX)" != "" ]  && echo "                gcc = $(GCC_PREFIX)/, $(shell $(GCC_PREFIX)/bin/gcc-12 -v 2>&1 | tail -1)"  || echo "                gcc = $(GCC), $(GCC_VER)"
-	@[ "$(LLVM_PREFIX)" != "" ] && echo "         llvm clang = $(LLVM_PREFIX)/, $(shell $(LLVM_PREFIX)/bin/clang -v 2>&1 | head -1)" || \
-	 { [ "$(CLANG_VER)" != "" ] && echo "         llvm clang = $(CLANG), $(CLANG_VER)" || echo "         llvm clang = "; }
-	@echo "       CC/GCC/CLANG = $(CC) | $(GCC) | $(CLANG)"
-	@echo "    CXX/GXX/CLANGXX = $(CXX) | $(GXX) | $(CLANGXX)"
-	@echo "                LLD = $(LLD)"
-	@echo "            OBJDUMP = $(OBJDUMP)"
-	@echo "            READELF = $(READELF)"
-	@echo "         CLANG-TIDY = $(CLANG_TIDY)"
-	@echo "       CLANG-FORMAT = $(CLANG_FORMAT)"
-	@echo "        NASM Format = $(NASM_FMT) (suffix: $(NASM_FMT_SUFFIX))"
-	-@$(MAKE) help-extras
+	@echo "          Current OS (COS) = $(COS), OS = $(OS), GCC_PRIOR = $(GCC_PRIOR)"
+	@echo "                      Arch = $(ARCH) ($(CARCH))"
+	@echo "        uname -p | -s | -m = $(UNAME_P) | $(UNAME_S) | $(UNAME_M)"
+	@echo "                 uid / gid = $(CURRENT_UID) / $(CURRENT_GID)"
+	@echo "                    CCTYPE = $(CCTYPE)"
+	@[ "$(GCC_PREFIX)" != "" ]  && echo "                       gcc = $(GCC_PREFIX)/, $(shell $(GCC_PREFIX)/bin/gcc-12 -v 2>&1 | tail -1)"  || echo "                       gcc = $(GCC), $(GCC_VER)"
+	@[ "$(LLVM_PREFIX)" != "" ] && echo "                llvm clang = $(LLVM_PREFIX)/, $(shell $(LLVM_PREFIX)/bin/clang -v 2>&1 | head -1)" || \
+	 { [ "$(CLANG_VER)" != "" ] && echo "                llvm clang = $(CLANG), $(CLANG_VER)" || echo "                llvm clang = "; }
+	@echo "              CC/GCC/CLANG = $(CC) | $(GCC) | $(CLANG)"
+	@echo "           CXX/GXX/CLANGXX = $(CXX) | $(GXX) | $(CLANGXX)"
+	@echo "                    CFLAGS = $(CFLAGS)"
+	@echo "                  CXXFLAGS = $(CXXFLAGS)"
+	@echo " CPPFLAGS (for both c/c++) = $(CPPFLAGS)"
+	@echo "                FLEX/BISON = $(LEX) | $(YACC)"
+	@echo "                    LFLAGS = $(LFLAGS)"
+	@echo "                    YFLAGS = $(YFLAGS)"
+	@echo "                       LLD = $(LLD)"
+	@echo "                   LDFLAGS = $(LDFLAGS)"
+	@echo "                   OBJDUMP = $(OBJDUMP)"
+	@echo "                   READELF = $(READELF)"
+	@echo "                CLANG-TIDY = $(CLANG_TIDY)"
+	@echo "              CLANG-FORMAT = $(CLANG_FORMAT)"
+	@echo "               NASM Format = $(NASM_FMT) (suffix: $(NASM_FMT_SUFFIX))"
+	@-$(MAKE) help-extras
+	@echo "END."
 
 .help1: Makefile # for '## xx: xx'
 	@echo
