@@ -3,14 +3,21 @@
 
 # We are running g++-12, v12.2.0; or g++-14, llvm 12 ~ 14; etc,,
 
+# Use `make V=1` to print commands.
+$(V).SILENT:
+# Make is verbose in Linux. Make it silent.
+MAKEFLAGS += --silent
+
 # for old releases of `mk` repo
 -include ../../ci/mk/detect_env.mk	#
 -include ../../ci/mk/detect_cc.mk	#
 
 # standard includes here #################
+.DEFAULT_GOAL := all
 -include ../../ci/mk/detect-env.mk		# setup COS, ARCH, cross-p TIMESTAMP, ECHO
 -include ../../ci/mk/detect-cc.mk		# setup NASM, LLD, NASM_FMT, NASM_FMT_SUFFIX, CC, CXX, ....
 -include ../../ci/mk/git.mk				# GIT_VERSION, GIT_REVISION, ...
+-include ../../ci/mk/version.mk			# MK_VERSION, ...
 
 -include env.mk							#
 -include .env							#
@@ -19,8 +26,6 @@
 -include _env.local.mk					#    your local tuning
 # standard includes ends #################
 
-# Make is verbose in Linux. Make it silent.
-MAKEFLAGS += --silent
 
 
 
@@ -33,6 +38,9 @@ PLATFORM       ?= linux
 ARCH           ?= amd64
 BUILD_DIR      ?= bin
 LOGS_DIR       ?= ./logs
+
+DIR_BUILD      ?= $(BUILD_DIR)
+DIR_LOGS       ?= $(LOGS_DIR)
 
 GO             := $(shell which go)
 GOOS           := $(shell go env GOOS)
@@ -61,7 +69,8 @@ GOBUILD := CGO_ENABLED=0 \
 
 
 
-.PHONY: all $(BUILD_DIR)/$(NAME) release release-all test build
+.PHONY: all $(BUILD_DIR)/$(NAME) install uninstall release release-all run
+.PHONY: app cmdr normal clean directories test cov build build-default
 all: build
 normal: clean $(BUILD_DIR)/$(NAME)
 
@@ -79,7 +88,6 @@ cov: | $(LOGS_DIR)
 $(LOGS_DIR):
 	@mkdir -pv $@
 
-.PHONY: directories
 directories: | $(BUILD_DIR) $(LOGS_DIR)
 
 ## build: build executable for current OS and CPU (arch)
