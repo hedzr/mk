@@ -55,52 +55,88 @@
 
 COS = $(OS)
 ifeq ($(OS),Windows_NT)
-    COS = WIN32
-    ARCH = x86
-    LS_OPT=
-    CCFLAGS += -D WIN32
-    ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
-        CCFLAGS += -D AMD64
-        COS = WIN64
-        ARCH = AMD64
-    else
-        ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
-            CCFLAGS += -D AMD64
-            COS = WIN64
-            ARCH = AMD64
-        endif
-        ifeq ($(PROCESSOR_ARCHITECTURE),x86)
-            CCFLAGS += -D IA32
-            COS = IA32
-        endif
-    endif
+	COS   = WIN32
+	ARCH  = x86
+	ARCH_ = i386
+	LS_OPT=
+	CCFLAGS += -D WIN32
+	ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
+		CCFLAGS += -D AMD64
+		COS   = WIN64
+		ARCH  = AMD64
+		ARCH_ = x86_64
+	else
+		ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
+			CCFLAGS += -D AMD64
+			COS = WIN64
+			ARCH = AMD64
+			ARCH_ = x86_64
+		endif
+		ifeq ($(PROCESSOR_ARCHITECTURE),ARM64)
+			CCFLAGS += -D ARM64
+			COS = WIN64
+			ARCH = ARM64
+			ARCH_ = aarch64
+		endif
+		ifeq ($(PROCESSOR_ARCHITECTURE),x86)
+			CCFLAGS += -D IA32
+			COS = WIN32
+		endif
+	endif
 else
-    LS_OPT=
-    UNAME_S := $(shell uname -s)
-    ARCH = $(shell uname -m)
-    ifeq ($(UNAME_S),Linux)
-        CCFLAGS += -D LINUX
-        LS_OPT=--color
-        COS = LINUX
-    endif
-    ifeq ($(UNAME_S),Darwin)
-        CCFLAGS += -D OSX
-        LS_OPT=-G
-        COS = OSX
-    endif
-    UNAME_P := $(shell uname -p)
-    ifeq ($(UNAME_P),x86_64)
-        CCFLAGS += -D AMD64
-    else
-        ifneq ($(filter %86,$(UNAME_P)),)
-            CCFLAGS += -D IA32
-        endif
-        ifneq ($(filter arm%,$(UNAME_P)),)
-            CCFLAGS += -D ARM
-            ARCH = ARM
-            # todo for arm, aarch, risc-v, ...
-        endif
-    endif
+	LS_OPT=
+	# uname -s: Darwin, Linux, ...
+	# uname -m: arm64/amd64 (for Darwin), aarch64/x86_64 (for Linux) ...
+	# uname -p: arm64/amd64 (for Darwin), aarch64/x86_64 (for Linux) ...
+	UNAME_S := $(shell uname -s)
+	UNAME_M := $(shell uname -m)
+	ARCH     = $(UNAME_M)
+	ARCH_    = $(UNAME_M)
+	ifeq ($(UNAME_S),Linux)
+		CCFLAGS += -D LINUX
+		LS_OPT   = --color
+		COS      = LINUX
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		CCFLAGS += -D OSX
+		LS_OPT   = -G
+		COS      = OSX
+	endif
+	UNAME_P := $(shell uname -p)
+    ifneq ($(UNAME_S),Darwin)
+		ifeq ($(UNAME_P),x86_64)
+			CCFLAGS += -D AMD64
+		else
+			ifneq ($(filter %86,$(UNAME_P)),)
+				CCFLAGS += -D IA32
+			endif
+			ifneq ($(filter riscv64%,$(UNAME_P)),)
+				CCFLAGS += -D RISCV -D RISCV64
+				ARCH = RISCV64
+				ARCH_ = riscv64
+			endif
+			ifneq ($(filter riscv%,$(UNAME_P)),)
+				CCFLAGS += -D RISCV -D RISCV32
+				ARCH = RISCV32
+				ARCH_ = riscv32
+			endif
+			ifneq ($(filter aarch64%,$(UNAME_P)),)
+				CCFLAGS += -D ARM64 -D AARCH64
+				ARCH = ARM64
+				ARCH_ = aarch64
+			endif
+			ifneq ($(filter arm64%,$(UNAME_P)),)
+				CCFLAGS += -D ARM64 -D AARCH64
+				ARCH = ARM64
+				ARCH_ = arm64
+			endif
+			ifneq ($(filter arm%,$(UNAME_P)),)
+				CCFLAGS += -D ARM -D ARM32
+				ARCH = ARM
+				# todo for arm, aarch, risc-v, ...
+			endif
+		endif
+	endif
 endif
 
 
