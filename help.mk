@@ -26,7 +26,7 @@ i info help: .help1 # for '#: xxx\nxxx:'
 	@echo "> The environment detected:"
 	@echo
 	@echo "          Current OS (COS) = $(COS), OS = $(OS), GCC_PRIOR = $(GCC_PRIOR)"
-	@echo "                      Arch = $(ARCH) ($(CARCH))"
+	@echo "                      Arch = $(ARCH) (CARCH: $(CARCH), ARCH_: $(ARCH_))"
 	@echo "        uname -p | -s | -m = $(UNAME_P) | $(UNAME_S) | $(UNAME_M)"
 	@echo "                 uid / gid = $(CURRENT_UID) / $(CURRENT_GID)"
 	@echo "                    CCTYPE = $(CCTYPE)"
@@ -48,6 +48,7 @@ i info help: .help1 # for '#: xxx\nxxx:'
 	@echo "                CLANG-TIDY = $(CLANG_TIDY)"
 	@echo "              CLANG-FORMAT = $(CLANG_FORMAT)"
 	@echo "               NASM Format = $(NASM_FMT) (suffix: $(NASM_FMT_SUFFIX))"
+	@echo "                       PWD = $(PWD)"
 	@-$(MAKE) help-extras
 	@echo "END."
 
